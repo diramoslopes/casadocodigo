@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,8 +40,10 @@ public class ProdutosController {
 	}
 	
 	@PostMapping
-	public ModelAndView gravar(@Valid Produto produto, BindingResult result,
-			RedirectAttributes redirectAttributes) {
+	public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result,
+		RedirectAttributes redirectAttributes) {
+		
+		System.out.println(sumario.getOriginalFilename());
 		
 		if(result.hasErrors()) {
 			return form(produto);
