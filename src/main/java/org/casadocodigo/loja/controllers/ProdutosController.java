@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.casadocodigo.loja.daos.ProdutoDAO;
+import org.casadocodigo.loja.infra.FileSaver;
 import org.casadocodigo.loja.model.Produto;
 import org.casadocodigo.loja.model.TipoPreco;
 import org.casadocodigo.loja.validation.ProdutoValidation;
@@ -32,6 +33,9 @@ public class ProdutosController {
 	@Autowired
 	private ProdutoDAO produtoDAO;
 	
+	@Autowired
+	private FileSaver fileSaver;
+	
 	@RequestMapping("/form")
 	public ModelAndView form(Produto produto) {
 		ModelAndView mv = new ModelAndView("produtos/form");
@@ -48,6 +52,9 @@ public class ProdutosController {
 		if(result.hasErrors()) {
 			return form(produto);
 		}
+		
+		String path = fileSaver.write("arquivo-sumario", sumario);
+		produto.setSumarioPath(path);
 		
 		produtoDAO.gravar(produto);
 		
